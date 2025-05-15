@@ -1,0 +1,19 @@
+{
+  "name": "cordova-plugin-app-permissions",
+  "version": "1.0.0",
+  "description": "Cordova plugin for get and set permissions on your iOS/Android phone",
+  "types": "./types/index.d.ts",
+  "cordova": {
+    "id": "cordova-plugin-app-permissions",
+    "platforms": [
+      "ios",
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://bitbucket.org/appentel_cl/cordova-plugin-app-permissions.git"
+  },
+  "author": "AC",
+  "license": "MIT"
+}

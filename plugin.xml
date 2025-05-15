@@ -1,0 +1,90 @@
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="cordova-plugin-app-permissions"
+    version="1.0.0">
+
+    <name>AppPermissions</name>
+    <description>Cordova plugin for get and set permissions on your iOS/Android phone</description>
+    <license>MIT</license>
+    <keywords>cordova</keywords>
+    <repo>https://bitbucket.org/appentel_cl/cordova-plugin-app-permissions</repo>
+
+    <engines>
+        <engine name="cordova" version=">=11.0.0" />
+        <engine name="cordova-android" version=">=11.0.0" />
+        <engine name="cordova-ios" version=">=6.2.0" />
+    </engines>
+
+    <preference name="NS_LOCATION_WHEN_IN_USE"
+        default="Esta aplicación necesita acceder a tu ubicación para brindarte una experiencia personalizada y mejorar tus interacciones dentro de la app." />
+    <preference name="NS_LOCATION_ALWAYS"
+        default="Esta aplicación requiere acceso a tu ubicación para ofrecerte servicios basados en la ubicación, incluso cuando no estés utilizando activamente la app." />
+    <preference name="NS_BLUETOOTH_ALWAYS"
+        default="Esta aplicación necesita acceder a Bluetooth para detectar dispositivos cercanos y beacons." />
+
+    <js-module src="www/app-permissions.js" name="AppPermissions">
+        <merges target="cordova.plugins.AppPermissions" />
+    </js-module>
+
+    <platform name="ios">
+        <edit-config target="NSLocationWhenInUseUsageDescription" file="*-Info.plist" mode="merge">
+            <string>$NS_LOCATION_WHEN_IN_USE</string>
+        </edit-config>
+        <edit-config target="NSLocationAlwaysAndWhenInUseUsageDescription" file="*-Info.plist"
+            mode="merge">
+            <string>$NS_LOCATION_ALWAYS</string>
+        </edit-config>
+        <config-file target="config.xml" parent="/*">
+            <feature name="AppPermissionsPlugin">
+                <param name="ios-package" value="AppPermissionsPlugin" />
+                <param name="onload" value="true" />
+            </feature>
+        </config-file>
+
+        <header-file src="src/ios/AppPermissionsPlugin.h" />
+        <source-file src="src/ios/AppPermissionsPlugin.m" />
+    </platform>
+
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="AppPermissionsPlugin">
+                <param name="android-package"
+                    value="cl.entel.cordova.AppPermissionsPlugin" />
+                <param name="onload" value="true" />
+            </feature>
+        </config-file>
+
+        <!-- LOCATION -->
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <service
+                android:enabled="true"
+                android:exported="false"
+                android:name="cl.entel.cordova.AppLocationPermissionsPluginService"
+                android:foregroundServiceType="location"
+            />
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <!-- Always include this permission -->
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+            <!-- Include only if your app benefits from precise location access. -->
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+            <!-- Required only when requesting background location access on Android 10 (API
+                                level 29) and higher. -->
+            <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+            <!-- Permisos para Bluetooth y dispositivos cercanos -->
+            <uses-permission android:name="android.permission.BLUETOOTH" />
+            <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+            <!-- Para Android 12 o superior -->
+            <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+            <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+        </config-file>
+        <!-- - -->
+
+        <dependency id="cordova-support-android-plugin" version="~2.0.4" />
+
+        <source-file src="src/android/AppPermissionsPlugin.java"
+            target-dir="src/cl/entel/cordova" />
+
+    </platform>
+
+</plugin>
