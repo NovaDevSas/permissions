@@ -26,14 +26,19 @@
         <merges target="cordova.plugins.AppPermissions" />
     </js-module>
 
-    <platform name="ios">
-        <edit-config target="NSLocationWhenInUseUsageDescription" file="*-Info.plist" mode="merge">
+  <platform name="ios">
+        <config-file target="*-Info.plist" parent="NSLocationWhenInUseUsageDescription">
             <string>$NS_LOCATION_WHEN_IN_USE</string>
-        </edit-config>
-        <edit-config target="NSLocationAlwaysAndWhenInUseUsageDescription" file="*-Info.plist"
-            mode="merge">
+        </config-file>
+        <config-file target="*-Info.plist" parent="NSLocationAlwaysAndWhenInUseUsageDescription">
             <string>$NS_LOCATION_ALWAYS</string>
-        </edit-config>
+        </config-file>
+        <config-file target="*-Info.plist" parent="NSBluetoothAlwaysUsageDescription">
+            <string>$NS_BLUETOOTH_ALWAYS</string>
+        </config-file>
+        <config-file target="*-Info.plist" parent="NSBluetoothPeripheralUsageDescription">
+            <string>$NS_BLUETOOTH_ALWAYS</string>
+        </config-file>
         <config-file target="config.xml" parent="/*">
             <feature name="AppPermissionsPlugin">
                 <param name="ios-package" value="AppPermissionsPlugin" />
