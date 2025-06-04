@@ -1,18 +1,62 @@
 var PLUGIN_NAME = "AppPermissionsPlugin";
 // @ts-ignore
 var exec = require("cordova/exec");
-exports.getStorageInfo =
+
+exports.requestBackgroundLocationPermission =
     /**
-     * Get storage info
-     * @returns {Promise<any>} Promise fulfiled with the storage info
+     *
+     * Ask for permission to use location services.
+     * @returns {Promise<void>}
+     *
      * @example
-     * cordova.plugins.AppPermissions.getStorageInfo().then(function(info) {
-     *    console.log("Storage info: ", info.totalspace, info.freespace);
+     * cordova.plugins.AppPermissions.requestBackgroundLocationPermission().then(function() {
+     *     console.log("Requesting authorization to use location services");
      * });
      */
     function () {
         return new Promise(function (resolve, reject) {
-            exec(resolve, reject, PLUGIN_NAME, "getStorageInfo", []);
+            exec(resolve, reject, PLUGIN_NAME, "requestBackgroundLocationPermission", []);
+        });
+    };
+
+exports.requestLocationPermission =
+    /**
+     *
+     * Ask for permission to use location services.
+     * @returns {Promise<void>}
+     *
+     * @example
+     * cordova.plugins.AppPermissions.requestLocationPermission().then(function() {
+     *     console.log("Requesting authorization to use location services");
+     * });
+     */
+    function () {
+        return new Promise(function (resolve, reject) {
+            exec(resolve, reject, PLUGIN_NAME, "requestLocationPermission", []);
+        });
+    };
+
+
+exports.checkLocationPermission =
+    /**
+     *
+     * @returns {Promise<any>} Promise fulfiled with the current permission value
+     *
+     * @example
+     * cordova.plugins.AppPermissions.checkLocationPermission().then(function(value) {
+     *     console.log("Permission value: ", value);
+     * ios:
+     *      - kCLAuthorizationStatusNotDetermined = 0
+     *      - kCLAuthorizationStatusRestricted
+     *      - kCLAuthorizationStatusDenied
+     *      - kCLAuthorizationStatusAuthorizedAlways
+     *      - kCLAuthorizationStatusAuthorizedWhenInUse
+     *      - kCLAuthorizationStatusAuthorized
+     * });
+     */
+    function () {
+        return new Promise(function (resolve, reject) {
+            exec(resolve, reject, PLUGIN_NAME, "checkLocationPermission", []);
         });
     };
 
@@ -48,7 +92,7 @@ exports.shouldShowRequestPermissionRationale =
             exec(resolve, reject, PLUGIN_NAME, "shouldShowRequestPermissionRationale", [permission]);
         });
     };
-    
+
 exports.requestNearbyDevicesPermission =
     /**
      *
